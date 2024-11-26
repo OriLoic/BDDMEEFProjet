@@ -1,33 +1,43 @@
 package dao;
 
 import models.Client;
+
 import java.sql.*;
+import java.util.ArrayList;
 
-public class ClientDAO {
-    private Connection connection;
-
-    public ClientDAO(Connection connection) {
-        this.connection = connection;
-    }
+public class ClientDAO extends BaseDAO {
 
     // Ajouter un client
-    public void addClient(Client client) throws SQLException {
-        String query = "INSERT INTO clients (nom, numeroCarte) VALUES (?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+    public static void addClient(Client client) throws SQLException {
+        String query = "INSERT INTO clients (nom, numerosCartes) VALUES (?, ?)";
+        try (Connection connection = getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, client.getNom());
-            stmt.setInt(2, client.getNumeroCarte());
+
+            // Convertir la liste de numéros de cartes en chaîne de caractères
+            String numerosCartes = String.join(",", client.getNumerosCartes().toString());
+            stmt.setString(2, numerosCartes);
+
             stmt.executeUpdate();
         }
     }
 
-    // Recherche un client par numéro de carte
-    public Client findByNumeroCarte(int numeroCarte) throws SQLException {
-        String query = "SELECT * FROM clients WHERE numeroCarte = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+    // Trouver un client par numéro de carte
+    public static Client findByNumeroCarte(int numeroCarte) throws SQLException {
+        String query = "SELECT * FROM clients WHERE FIND_IN_SET(?, numerosCartes)";
+        try (Connection connection = getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, numeroCarte);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Client(rs.getString("nom"), rs.getInt("numeroCarte"));
+                    String nom = rs.getString("nom");
+                    String numerosCartesStr = rs.getString("numerosCartes");
+                    // Convertir la chaîne de numéros de cartes en ArrayList
+                    ArrayList<Integer> numerosCartes = new ArrayList<>();
+                    for (String numero : numerosCartesStr.split(",")) {
+                        numerosCartes.add(Integer.parseInt(numero.trim()));
+                    }
+                    return new Client(nom, numerosCartes);
                 }
             }
         }

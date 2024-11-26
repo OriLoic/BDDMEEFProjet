@@ -1,25 +1,31 @@
 package models;
 
 import dao.CarteAbonnementDAO;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CarteAbonnement {
     private int id;
+    private int numeroCarte;  // Numéro de la carte d'abonnement
     private float solde;
     private int nbFilmsLoues;
-    private ArrayList<Film> historique;
+    private ArrayList<Film> historique;  // Liste des films loués
 
-    public CarteAbonnement(int id, float solde, int nbFilmsLoues, ArrayList<Film> historique) {
-        this.id = id;
+    public CarteAbonnement(int numeroCarte, float solde, int nbFilmsLoues, ArrayList<Film> historique) {
+        this.numeroCarte = numeroCarte;
         this.solde = solde;
         this.nbFilmsLoues = nbFilmsLoues;
         this.historique = historique;
     }
 
     // Getters et setters
-    public int getId() {
-        return id;
+    public int getNumeroCarte() {
+        return numeroCarte;
+    }
+
+    public void setNumeroCarte(int numeroCarte) {
+        this.numeroCarte = numeroCarte;
     }
 
     public float getSolde() {
@@ -27,11 +33,7 @@ public class CarteAbonnement {
     }
 
     public void setSolde(float solde) {
-        if (solde >= 0) {
-            this.solde = solde;
-        } else {
-            throw new IllegalArgumentException("Le solde ne peut pas être négatif !");
-        }
+        this.solde = solde;
     }
 
     public int getNbFilmsLoues() {
@@ -46,25 +48,29 @@ public class CarteAbonnement {
         return historique;
     }
 
-    public void setHistorique(ArrayList<Film> historique) {
-        this.historique = historique;
+    public void addFilmToHistorique(Film film) {
+        if (historique == null) {
+            historique = new ArrayList<>();
+        }
+        historique.add(film);
     }
 
-    // Ajouter une nouvelle carte d'abonnement
-    public void add(CarteAbonnementDAO carteAbonnementDAO) throws SQLException {
-        carteAbonnementDAO.addCarteAbonnement(this);
+    // Rechercher une carte par numéro de carte
+    public static CarteAbonnement findByNumeroCarte(int numeroCarte) throws SQLException {
+        return CarteAbonnementDAO.findByNumeroCarte(numeroCarte);
     }
 
-    // Rechercher une carte d'abonnement par ID
-    public static CarteAbonnement findById(int id, CarteAbonnementDAO carteAbonnementDAO) throws SQLException {
-        return carteAbonnementDAO.findById(id);
+    // Ajouter une carte
+    public void add() throws SQLException {
+        CarteAbonnementDAO.addCarteAbonnement(this);
     }
 
-    // Mettre à jour une carte d'abonnement
-    public void update(CarteAbonnementDAO carteAbonnementDAO) throws SQLException {
-        carteAbonnementDAO.updateCarteAbonnement(this);
+    // Mettre à jour une carte
+    public void update() throws SQLException {
+        CarteAbonnementDAO.updateCarteAbonnement(this);
     }
 }
+
 
 
 
