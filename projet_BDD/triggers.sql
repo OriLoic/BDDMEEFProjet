@@ -62,6 +62,16 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE TRIGGER soldeInitCarte
+-- verifie qu'une carte d'abonnement est bien crée avec un solde minimum de 15 euros
+BEFORE INSERT ON carte_abonnement
+FOR EACH ROW
+BEGIN
+    IF NEW.solde < 15 THEN
+        RAISE_APPLICATION_ERROR(-20005, 'Montant minimal de 15 euros à la création d une carte')
+    END IF;
+END;
+/
 
 CREATE OR REPLACE TRIGGER programmeFidelite
 -- va ajouter 10 euros au solde de la carte si 20 locations de films dans le mois
