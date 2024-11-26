@@ -1,0 +1,15 @@
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/models/LocationAbonne.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/dao/FilmDAO.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/dao/LocationAbonneDAO.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/dao/LocationCarteCreditDAO.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/dao/BaseDAO.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/dao/CategorieDAO.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/models/Categorie.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/models/CarteAbonnement.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/models/LocationCarteCredit.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/AL2000.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/models/Support.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/models/Film.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/dao/CarteAbonnementDAO.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/dao/ClientDAO.java
+/home/loic/Documents/MEEF/Base de donnée/Projet/BDDMEEFProjet2/projetbd/src/main/java/com/models/Client.java
