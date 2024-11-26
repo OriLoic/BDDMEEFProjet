@@ -3,7 +3,7 @@ CREATE OR REPLACE TRIGGER nombreMaxFilmsAbo
 BEFORE INSERT ON location_abonne
 FOR EACH ROW 
 DECLARE
-    nbLocs INTEGER
+    nbLocs INTEGER;
 BEGIN
     SELECT nbFilmsLoues
     INTO nbLocs
@@ -20,7 +20,7 @@ CREATE OR REPLACE TRIGGER nombreMaxFilmsCredit
 BEFORE INSERT ON location_carte_credit
 FOR EACH ROW 
 DECLARE
-    nbLocs INTEGER
+    nbLocs INTEGER;
 BEGIN
     -- on compte de nombre de locations sur la carte
     SELECT COUNT(*)
@@ -49,7 +49,7 @@ CREATE OR REPLACE TRIGGER soldeNegatifAbonnement
 BEFORE INSERT ON location_abonne
 FOR EACH ROW
 DECLARE
-    solde_carte INTEGER
+    solde_carte INTEGER;
 BEGIN
     SELECT solde
     INTO solde_carte
@@ -73,11 +73,42 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE TRIGGER verifRetourFilmAbo
+-- empêche la mise à jour de la table des films loués avec abonnement si le mauvais film est retourné
+BEFORE DELETE ON location_abonne
+FOR EACH ROW
+DECLARE
+    nbLocs INTEGER; -- on va compter si le film a bien été loué au moins une fois avec cette carte
+BEGIN
+    SELECT COUNT(*)
+    INTO nbLocs 
+    FROM location_abonne l
+    WHERE (l.carteId = NEW.carteId) AND (l.filmId = NEW.filmId);
+    IF nbLocs = 0 THEN
+        RAISE_APPLICATION_ERROR(-20006, 'Ce film n a pas été loué avec cette carte')
+    END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER verifRetourFilmDebit
+-- empêche la mise à jour de la table des films loués avec une carte de débit si le mauvais film est retourné
+BEFORE DELETE ON location_carte_credit
+FOR EACH ROW
+DECLARE
+    nbLocs INTEGER; -- on va compter si le film a bien été loué avec cette carte
+BEGIN
+    SELECT COUNT(*)
+    INTO nbLocs 
+    FROM location_carte_credit l
+    WHERE (l.clientId = NEW.clientId) AND (l.filmId = NEW.filmId);
+    IF nbLocs = 0 THEN
+        RAISE_APPLICATION_ERROR(-20007, 'Ce film n a pas été loué avec cette carte de crédit')
+    END IF;
+END;
+/
+
 CREATE OR REPLACE TRIGGER programmeFidelite
 -- va ajouter 10 euros au solde de la carte si 20 locations de films dans le mois
 
 CREATE OR REPLACE TRIGGER securiteHorsService
 -- assure qu'une transaction n'est pas validée en cas de panne de la machine
-
-CREATE OR REPLACE TRIGGER verifRetourFilm
--- empêche la mise à jour de la table des films loués si le mauvais film est retourné
