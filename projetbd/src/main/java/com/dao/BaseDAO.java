@@ -8,8 +8,8 @@ public abstract class BaseDAO {
 
     // Informations de connexion pour Oracle
     private static final String URL = "jdbc:oracle:thin:@localhost:1521:XE"; // Modifier XE si nécessaire
-    private static final String USER = "SIMON_LOI"; // Mettre ici l'utilisateur Oracle
-    private static final String PASSWORD = "ba828973bf"; // Mettre ici le mot de passe Oracle
+    private static final String USER = "XXX"; // Mettre ici l'utilisateur Oracle
+    private static final String PASSWORD = "XXX"; // Mettre ici le mot de passe Oracle
 
     // Charger le driver Oracle (recommandé)
     static {
