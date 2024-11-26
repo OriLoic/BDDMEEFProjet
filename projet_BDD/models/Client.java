@@ -1,15 +1,17 @@
 package models;
 
 import dao.ClientDAO;
+
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Client {
     private String nom;
-    private int numeroCarte;
+    private ArrayList<Integer> numerosCartes;  // Liste des numéros de carte (carte de crédit et abonnement)
 
-    public Client(String nom, int numeroCarte) {
+    public Client(String nom, ArrayList<Integer> numerosCartes) {
         this.nom = nom;
-        this.numeroCarte = numeroCarte;
+        this.numerosCartes = numerosCartes;
     }
 
     // Getters et setters
@@ -17,24 +19,25 @@ public class Client {
         return nom;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public ArrayList<Integer> getNumerosCartes() {
+        return numerosCartes;
     }
 
-    public int getNumeroCarte() {
-        return numeroCarte;
+    // Méthode pour ajouter un numéro de carte
+    public void addCarte(int numeroCarte) {
+        if (numerosCartes == null) {
+            numerosCartes = new ArrayList<>();
+        }
+        numerosCartes.add(numeroCarte);
     }
 
-    public void setNumeroCarte(int numeroCarte) {
-        this.numeroCarte = numeroCarte;
+    // Ajouter un client
+    public void add() throws SQLException {
+        ClientDAO.addClient(this);
     }
 
-    // Méthodes interactives
-    public void add(ClientDAO clientDAO) throws SQLException {
-        clientDAO.addClient(this);
-    }
-
-    public static Client findByNumeroCarte(int numeroCarte, ClientDAO clientDAO) throws SQLException {
-        return clientDAO.findByNumeroCarte(numeroCarte);
+    // Trouver un client par numéro de carte
+    public static Client findByNumeroCarte(int numeroCarte) throws SQLException {
+        return ClientDAO.findByNumeroCarte(numeroCarte);
     }
 }
